@@ -1,4 +1,5 @@
 #Class for a WEAPON in CSGO Cases
+import re
 
 class Weapon:
 	#need at least the weapon name to initialize the object
@@ -15,19 +16,23 @@ class Weapon:
 	#Minimal Wear— 24.68%
 	#Factory New— 14.71%
 
-	def __init__(self, name_of_weapon = "", skin = "", stattrack = False, condition = -1, buy_price = 0, sell_price = 0):
+	def __init__(self, name_of_weapon = "", skin = "", stattrack = False, condition = -1, buy_price = 0, sell_price = 0, timestamp = 0):
 		self.name_of_weapon = name_of_weapon
 		self.skin = skin
 		self.stattrack = stattrack
 		self.condition = condition 
-		self.buy_price = float(buy_price)
-		self.sell_price = float(sell_price)
+		self.timestamp = timestamp
+    # Remove non-numeric characters from the buy_price and sell_price strings
+		buy_price_clean = re.sub(r"[^\d.]", "", buy_price)
+		sell_price_clean = re.sub(r"[^\d.]", "", sell_price)
+		self.buy_price = float(buy_price_clean)
+		self.sell_price = float(sell_price_clean)
 		#summation of price at a certain quality * the percent chance of that quality (Expected Value)
 		#temp = 0
 		quality_value_list = [.1471, .2468, .4118, .0792, .0993]
 		#for i in range(5):
 		#	temp += sell_price[i] * quality_value_list[i]
-		self.estimated_value = float(sell_price) * quality_value_list[condition]
+		self.estimated_value = float(sell_price_clean) * quality_value_list[condition]
 
 	#changes the odds of getting the weapon.
 	def stat_track(self, stattrack):

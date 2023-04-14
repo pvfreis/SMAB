@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from Weapon import Weapon
 import ssl
+from datetime import datetime
 
 def get_json(url):
     ###This allows the program to run on a nac.
@@ -76,7 +77,7 @@ def clean_json(url):
             price1 = price1.replace('$', '')
             price2 = price2.replace('$', '')
             #build class and append it
-            weap = Weapon(weapon,skin,stattrak,conditiondict[condition],price1,price2)
+            weap = Weapon(weapon,skin,stattrak,conditiondict[condition],price1,price2,datetime.now())
             output.append(weap)
             #reset the loop
             splititem.clear()
